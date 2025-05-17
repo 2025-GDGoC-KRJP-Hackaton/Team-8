@@ -1,94 +1,55 @@
-import os
-from typing import List, Dict, Optional
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import google.generativeai as genai
+import os, datetime
+from fastapi import FastAPI
+from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
+from langchain.prompts import ChatPromptTemplate
+from langchain.output_parsers import PydanticOutputParser
+from models import Payload            # the schema above
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+load_dotenv()                           
+app   = FastAPI()
+parser = PydanticOutputParser(pydantic_object=Payload)
 
-# Initialize Gemini
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-2.0-flash')
+llm   = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash",
+    api_key=os.getenv("GEMINI_API_KEY"),         
+    temperature=0.3,
+).bind_tools([Payload])
 
-app = FastAPI()
+SYSTEM = "You are the Project Manager of this project. Return JSON ONLY, matching the schema."
+TEMPLATE = ChatPromptTemplate.from_messages(
+    [
+        ("system", SYSTEM),
+        ("human",
+"""[Deadline: {deadline}]
+[Date: {today}]
 
-class Message(BaseModel):
-    content: str
-    author: str
-    timestamp: str
+### Few-shot
+<example>
+User chat:
+We need frontend wireframes by Friday. Tina can you own it?
+Assistant(JSON):
+{{"tickets":[{{"title":"Create frontend wireframes","assignee":'Tina',"due_date":"friday","priority":"MID","description":"Create wireframes for the frontend of the application."}}]}}
+</example>
 
-class ChatAnalysis(BaseModel):
-    messages: List[Message]
-    project_context: Optional[Dict] = None
+### New chat slice
+{chat_slice}
 
-class ProjectUpdate(BaseModel):
-    tasks: List[Dict]
-    deadlines: Dict[str, str]
-    priorities: List[str]
-    recommendations: List[str]
+Extract actionable tickets. Group related tickets under a 2-milestone sprint_plan if appropriate.
+{format_instructions}"""
+        ),
+    ]
+).partial(
+    today=datetime.date.today(),
+    format_instructions=parser.get_format_instructions()
+)
 
-# System prompt for the AI
-PROJECT_MANAGER_PROMPT = """You are an AI Project Manager analyzing a group chat. Your role is to:
-1. Identify tasks and their status
-2. Set and track deadlines
-3. Prioritize work items
-4. Provide recommendations for project progress
-5. Identify blockers and dependencies
-6. Ensure team accountability
 
-When analyzing messages, focus on:
-- Task assignments and updates
-- Deadline mentions
-- Progress reports
-- Blockers or issues
-- Team member availability
-- Resource needs
-
-Provide clear, actionable insights and maintain a professional tone."""
-
-@app.post("/analyze-chat", response_model=ProjectUpdate)
-async def analyze_chat(chat_data: ChatAnalysis):
-    try:
-        # Format messages for analysis
-        formatted_messages = "\n".join([
-            f"[{msg.timestamp}] {msg.author}: {msg.content}"
-            for msg in chat_data.messages
-        ])
-
-        # Create the prompt
-        prompt = f"""
-        {PROJECT_MANAGER_PROMPT}
-
-        Project Context:
-        {chat_data.project_context if chat_data.project_context else 'No specific context provided'}
-
-        Recent Chat Messages:
-        {formatted_messages}
-
-        Please analyze the above chat and provide:
-        1. A list of identified tasks with their status
-        2. Any mentioned or suggested deadlines
-        3. Priority items that need immediate attention
-        4. Specific recommendations for the team
-        """
-
-        # Get AI response
-        response = model.generate_content(prompt)
-        
-        # Parse the response and structure it
-        # Note: In a real implementation, you'd want to parse the response more carefully
-        # This is a simplified version
-        return ProjectUpdate(
-            tasks=[{"description": "Task 1", "status": "In Progress"}],  # Example
-            deadlines={"Task 1": "2024-03-01"},  # Example
-            priorities=["Complete Task 1"],  # Example
-            recommendations=["Focus on completing Task 1"]  # Example
-        )
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@app.post("/extract")
+async def extract(body: dict):
+    prompt  = TEMPLATE.format(**body)            # body has chat_slice, deadline
+    result  = await llm.ainvoke(prompt)
+    return parser.parse(result.content)          # runtime validation!
 
 if __name__ == "__main__":
     import uvicorn
