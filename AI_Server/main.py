@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import json
 import traceback
 import re
+from typing import Optional
 
 load_dotenv()                           
 app = FastAPI()
@@ -28,10 +29,12 @@ def load_prompt(prompt_type: PromptType) -> str:
     
     prompt_path = os.path.join(PROMPTS_DIR, prompt_file)
     try:
-        with open(prompt_path, 'r') as f:
+        with open(prompt_path, 'r', encoding='utf-8') as f:
             return f.read()
     except FileNotFoundError:
         raise HTTPException(status_code=500, detail=f"Prompt file not found: {prompt_file}")
+    except UnicodeDecodeError as e:
+        raise HTTPException(status_code=500, detail=f"Error reading prompt file: {str(e)}")
 
 def clean_json_response(response: str) -> str:
     # Remove markdown code block markers if present
@@ -46,7 +49,7 @@ llm = ChatGoogleGenerativeAI(
     temperature=0.3,
 ).bind_tools([Payload, ProjectOverview])
 
-def create_prompt_template(prompt_type: PromptType) -> ChatPromptTemplate:
+def create_prompt_template(prompt_type: PromptType, counts: Optional[int] = None, timestamp: Optional[str] = None, days_of_week: Optional[str] = None) -> ChatPromptTemplate:
     system_prompt = load_prompt(prompt_type)
     
     if prompt_type == PromptType.TICKETS:
@@ -71,7 +74,8 @@ Assistant(JSON):
             "assignee": "Bob",
             "due_date": "2024-02-21",
             "priority": "HIGH",
-            "description": "Implement login page including password reset functionality"
+            "description": "Implement login page including password reset functionality",
+            "estimated_time": "PT4H"
         }}
     ]
 }}
@@ -79,19 +83,17 @@ Assistant(JSON):
 
 <example>
 User chat:
-- John: I'll work on the login page
-- Alice: Great, please finish by tomorrow
-- John: I'll make sure to include password reset
-
+오늘 저녁 7시에 재민이랑 같이 프로젝트 기획 회의를 해야할거 같아
 Assistant(JSON):
 {{
     "tickets": [
         {{
-            "title": "Implement login page with password reset",
-            "assignee": "John",
+            "title": "Project Planning Meeting",
+            "assignee": "Jaemin",
             "due_date": "2024-02-21",
             "priority": "HIGH",
-            "description": "Create login page functionality including password reset feature"
+            "description": "Hold project planning meeting to discuss project scope and requirements",
+            "estimated_time": "PT2H"
         }}
     ]
 }}
@@ -100,17 +102,24 @@ Assistant(JSON):
 ### Chat to Analyze
 {chat_slice}
 
-Extract ALL actionable tickets from the chat. For each task mentioned:
+Extract exactly {counts} tickets (or fewer if there aren't enough tasks) from the chat. For each task:
 1. Create a ticket with a clear title
 2. Assign it to the person who volunteered or was assigned
-3. Set the due date in ISO 8601 format (YYYY-MM-DD)
+3. Calculate the due date based on mentioned dates or relative time (using {timestamp} as reference)
 4. Set priority based on urgency (HIGH/MID/LOW)
 5. Write a detailed description
+6. Calculate estimated time in ISO 8601 duration format (PT30M, PT1H, PT2H, etc.)
 
+If the message is in Korean, translate the task details to English but keep the original meaning.
 Return the tickets in JSON format matching the schema exactly.
 {format_instructions}"""
             )
-        ]).partial(today=datetime.date.today().isoformat())
+        ]).partial(
+            today=datetime.date.today().isoformat(),
+            counts=counts or 3,  # Default to 3 if not specified
+            timestamp=timestamp or datetime.datetime.now().isoformat(),
+            days_of_week=days_of_week or datetime.datetime.now().strftime("%A").upper()
+        )
     else:
         return ChatPromptTemplate.from_messages([
             ("system", system_prompt),
@@ -140,7 +149,12 @@ async def extract(request: ChatRequest):
             parser = PydanticOutputParser(pydantic_object=ProjectOverview)
         
         # Create and format prompt
-        template = create_prompt_template(request.prompt_type)
+        template = create_prompt_template(
+            request.prompt_type,
+            counts=request.counts,
+            timestamp=request.timestamp,
+            days_of_week=request.days_of_week
+        )
         prompt = template.format(
             chat_slice=chat_slice,
             format_instructions=parser.get_format_instructions()
@@ -148,43 +162,30 @@ async def extract(request: ChatRequest):
         
         # Get AI response
         result = await llm.ainvoke(prompt)
-        print("Raw AI Response:", result.content)  # Debug print
         
         try:
             # Clean the response and parse as JSON
             cleaned_response = clean_json_response(result.content)
-            print("Cleaned Response:", cleaned_response)  # Debug print
-            
             json_response = json.loads(cleaned_response)
-            print("Parsed JSON:", json_response)  # Debug print
             
             # Then parse with Pydantic
             parsed = parser.parse(cleaned_response)
             return parsed
         except json.JSONDecodeError as json_error:
-            print("JSON Parse Error:", str(json_error))  # Debug print
-            print("Raw Response:", result.content)  # Debug print
-            print("Cleaned Response:", cleaned_response)  # Debug print
             raise HTTPException(
                 status_code=500,
-                detail=f"Invalid JSON response: {str(json_error)}\nRaw response: {result.content}\nCleaned response: {cleaned_response}"
+                detail=f"Invalid JSON response: {str(json_error)}"
             )
         except Exception as parse_error:
-            print("Parse Error:", str(parse_error))  # Debug print
-            print("Raw Response:", result.content)  # Debug print
-            print("Cleaned Response:", cleaned_response)  # Debug print
-            print("Traceback:", traceback.format_exc())  # Debug print
             raise HTTPException(
                 status_code=500,
-                detail=f"Failed to parse AI response: {str(parse_error)}\nRaw response: {result.content}\nCleaned response: {cleaned_response}\nTraceback: {traceback.format_exc()}"
+                detail=f"Failed to parse AI response: {str(parse_error)}"
             )
         
     except Exception as e:
-        print("General Error:", str(e))  # Debug print
-        print("Traceback:", traceback.format_exc())  # Debug print
         raise HTTPException(
             status_code=500,
-            detail=f"Error: {str(e)}\nTraceback: {traceback.format_exc()}"
+            detail=f"Error: {str(e)}"
         )
 
 if __name__ == "__main__":

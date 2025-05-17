@@ -24,6 +24,9 @@ class Message(BaseModel):
 class ChatRequest(BaseModel):
     messages: List[Message] = Field(..., description="List of chat messages")
     prompt_type: PromptType = Field(default=PromptType.TICKETS, description="Type of analysis to perform")
+    counts: Optional[int] = Field(None, description="Number of tickets to generate")
+    timestamp: Optional[str] = Field(None, description="ISO timestamp of the request")
+    days_of_week: Optional[str] = Field(None, description="Day of the week for the request")
 
     class Config:
         json_schema_extra = {
@@ -38,7 +41,10 @@ class ChatRequest(BaseModel):
                         "content": "Great, please finish by tomorrow"
                     }
                 ],
-                "prompt_type": "TICKETS"
+                "prompt_type": "TICKETS",
+                "counts": 3,
+                "timestamp": "2024-02-21T10:00:00Z",
+                "days_of_week": "MONDAY"
             }
         }
 
