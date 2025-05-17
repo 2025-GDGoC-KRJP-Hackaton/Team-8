@@ -1,12 +1,13 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from typing import List, Optional, Dict, Any
 from enum import Enum
+from datetime import datetime
 
 class PromptType(str, Enum):
-    TICKETS = "tickets"
-    SHORT_OVERVIEW = "short_overview"
-    LONG_OVERVIEW = "long_overview"
-    LIST_TASKS = "list_tasks"
+    TICKETS = "TICKETS"
+    SHORT_OVERVIEW = "SHORT_OVERVIEW"
+    LONG_OVERVIEW = "LONG_OVERVIEW"
+    LIST_TASKS = "LIST_TASKS"
 
 class Message(BaseModel):
     author: str = Field(..., description="The author of the message")
@@ -37,16 +38,25 @@ class ChatRequest(BaseModel):
                         "content": "Great, please finish by tomorrow"
                     }
                 ],
-                "prompt_type": "tickets"
+                "prompt_type": "TICKETS"
             }
         }
 
 class Ticket(BaseModel):
     title: str = Field(..., description="Title of the ticket")
     assignee: Optional[str] = Field(None, description="Person assigned to the ticket")
-    due_date: str = Field(..., description="Due date for the ticket")
+    due_date: str = Field(..., description="Due date in ISO 8601 format (YYYY-MM-DD)")
     priority: str = Field(default="MID", pattern="LOW|MID|HIGH", description="Priority level of the ticket")
     description: str = Field(..., description="Detailed description of the ticket")
+
+    @validator('due_date')
+    def validate_due_date(cls, v):
+        try:
+            # Try to parse the date string
+            datetime.fromisoformat(v)
+            return v
+        except ValueError:
+            raise ValueError('due_date must be in ISO 8601 format (YYYY-MM-DD)')
 
 class ProjectOverview(BaseModel):
     summary: str = Field(..., description="Project summary")

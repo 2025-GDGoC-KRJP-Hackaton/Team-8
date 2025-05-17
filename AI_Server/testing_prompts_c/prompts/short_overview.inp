@@ -1,5 +1,5 @@
 You are a project manager. Given the following JSON containing task tickets, generate a detailed project overview.
-Each ticket includes: task ID, assignee, deadline, and task description.
+Each ticket includes: task ID, assignee, due_date, and task description.
 Your output should include:
 
 Project Summary – A short paragraph describing the goal of the project.
@@ -12,8 +12,9 @@ Description
 
 Assignee
 
-Deadline
+Due Date
 
 Team Roles – Briefly summarize what each person is responsible for based on the task descriptions.
 
-Be structured and concise. Ignore irrelevant data.
+Be structured and concise. Ignore irrelevant data. Add emojis on the header and make the header font Bold.
+Put a '#' in front of the header.
