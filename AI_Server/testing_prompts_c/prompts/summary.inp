@@ -5,29 +5,62 @@ IMPORTANT DATE CONTEXT:
 - Current day of week: {days_of_week}
 - Use this as reference for any time-based analysis
 
-Your summary should be a single, well-formatted paragraph that includes:
+Your summary should be well-formatted using markdown styling and emojis:
 
-# Summary
-- Start with a 3-4 sentence overview of the main topic and key decisions
-- Flow into a detailed summary of the key points discussed
-- Include important decisions made and any concerns raised
-- Note any agreements or commitments made
-- End with 2-3 sentences about what needs to be done next
-- Suggest any potential challenges or areas needing more discussion
+# 📝 Summary
+- Write a concise 3-4 sentence overview of the main topic and key decisions
+- Focus on the most important outcomes
+- Use **bold** for emphasis on key terms and important words
+- Use *italics* for important dates or deadlines
+- Use 🎯 for main goals
+- Use ⭐ for key achievements
+
+## 💡 Key Points
+- List the main points discussed
+- Use bullet points (•) for better readability
+- Use `code` formatting for technical terms
+- Use > for important quotes or decisions
+- Use **bold** for action items and critical information
+- Use *italics* for people's names
+- Use ✅ for completed items
+- Use 🔄 for ongoing tasks
+- Use ⚠️ for important warnings
+- Use 💪 for assigned responsibilities
+
+## 🚀 Next Steps
+- Outline what needs to be done next
+- Use numbered lists (1. 2. 3.) for sequential steps
+- Use **bold** for critical actions and important deadlines
+- Use *italics* for dates
+- Use `code` for technical requirements
+- Use > for important notes or warnings
+- Use 📅 for deadlines
+- Use 👥 for team-related tasks
+- Use 🔧 for technical tasks
+- Use 📋 for documentation tasks
+
+## 📌 Additional Notes
+- Use **bold** for important reminders and critical information
+- Use *italics* for follow-up items
+- Use `code` for any technical specifications
+- Use 💡 for ideas or suggestions
+- Use ⚡ for urgent items
+- Use 🔍 for items needing review
+- Use 📊 for metrics or statistics
 
 IMPORTANT:
-- Write in a natural, flowing style
+- Write in a clear, professional style
 - Be concise but comprehensive
 - Focus on the main points and decisions
 - Highlight any unresolved questions
 - If messages are in Korean, translate key points to English
 - Use the reference date ({timestamp}) for any time-based analysis
-- Use markdown header (#) for the title
+- Make full use of markdown formatting and emojis for better readability
 - Return ONLY valid JSON without any additional text or formatting
 
 Return the summary in this exact JSON format (no additional text, no markdown, just pure JSON):
 {{
-    "summary": "# Summary\\n\\n[Single flowing paragraph that combines the overview, key points, and future outlook]"
+    "summary": "# 📝 Summary\\n\\n[3-4 sentence overview with **bold** for important terms, *italics*, and emojis]\\n\\n## 💡 Key Points\\n\\n• [Point 1 with **bold** for important information and emojis]\\n• [Point 2 with **bold** for important information and emojis]\\n• [Point 3 with **bold** for important information and emojis]\\n\\n> ⚠️ **Important decision** or quote\\n\\n## 🚀 Next Steps\\n\\n1. [Step 1 with **bold** for critical actions and emojis]\\n2. [Step 2 with **bold** for critical actions and emojis]\\n3. [Step 3 with **bold** for critical actions and emojis]\\n\\n## 📌 Additional Notes\\n\\n[Additional information with **bold** for important points and emojis]"
 }}
 
 ### Few-shot
@@ -40,7 +73,7 @@ User chat:
 
 Assistant(JSON):
 {{
-    "summary": "# Summary\\n\\nThe team discussed the database schema implementation timeline, with Bob taking the lead on creating the initial ER diagram, followed by Charlie's review and a team review session. The project aims to finalize the schema by next week, with a structured review process in place. During the meeting, Alice emphasized the need to finalize the schema by next week, and Bob volunteered to create the initial ER diagram by Wednesday. Charlie offered to review the diagram on Thursday, ensuring there would be time for any necessary revisions. Alice concluded by scheduling a team review for Friday, allowing the entire team to provide input before the final deadline. Moving forward, the team will need to prepare a list of key considerations for the review session and document any decisions made during the process to maintain a clear record of the schema's evolution."
+    "summary": "# 📝 Summary\\n\\nThe team discussed the **database schema implementation** timeline, with *Bob* taking the lead on creating the initial `ER diagram`. The project aims to **finalize the schema** by *next week* 🎯, with a **structured review process** in place. *Alice* emphasized the importance of meeting the **deadline** to keep the project on track.\\n\\n## 💡 Key Points\\n\\n• 💪 *Bob* will create the initial `ER diagram` by **Wednesday** 📅\\n• 🔄 *Charlie* will review the diagram on **Thursday** 👥\\n• ✅ Team review scheduled for **Friday** 📅\\n• 🎯 **Final schema** needs to be completed by *next week*\\n• 🔧 Focus will be on **structure first**, followed by `naming conventions`\\n\\n> ⚠️ **Critical**: All team members must review the schema before the final deadline\\n\\n## 🚀 Next Steps\\n\\n1. 💪 **Bob** to create and post the `ER diagram` in #design channel by *6 PM tomorrow* 📅\\n2. 👥 **Charlie** to prepare review checklist for *Thursday's* review 🔍\\n3. 👥 **Team** to prepare questions and concerns for *Friday's* review 📋\\n4. 📋 Consider creating a `documentation template` for schema changes\\n5. 👥 Plan follow-up meeting to discuss `implementation details` 📅\\n\\n## 📌 Additional Notes\\n\\n• ⚡ **Critical**: Ensure all team members have access to the design channel\\n• 💡 *Follow-up*: Schedule a meeting to discuss any changes from the review\\n• 🔧 `Technical Note`: Consider using a version control system for schema changes"
 }}
 </example>
 
@@ -53,7 +86,7 @@ Analyze the chat messages and create a comprehensive written summary. Focus on:
 3. Any concerns or blockers raised
 4. Future steps and recommendations
 
-Write in a natural, flowing style that captures the essence of the discussion.
-Use markdown header (#) for the title.
+Write in a clear, professional style with rich markdown formatting and appropriate emojis.
+Use **bold** for important words and critical information.
 Return ONLY valid JSON matching the schema exactly, without any additional text or formatting.
 {format_instructions}
