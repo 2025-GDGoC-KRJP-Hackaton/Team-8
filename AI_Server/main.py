@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException
 from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.output_parsers import PydanticOutputParser
-from models import Payload, ChatRequest, PromptType, ProjectOverview
+from models import Payload, ChatRequest, PromptType, ProjectOverview, Summary
 from dotenv import load_dotenv
 import json
 import traceback
@@ -21,7 +21,8 @@ def load_prompt(prompt_type: PromptType) -> str:
         PromptType.TICKETS: "tickets.inp",
         PromptType.SHORT_OVERVIEW: "short_overview.inp",
         PromptType.LONG_OVERVIEW: "long_overview.inp",
-        PromptType.LIST_TASKS: "list_tasks.inp"
+        PromptType.LIST_TASKS: "list_tasks.inp",
+        PromptType.SUMMARY: "summary.inp"
     }.get(prompt_type)
     
     if not prompt_file:  # if the prompt file is not found
@@ -47,7 +48,7 @@ llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash",
     api_key=os.getenv("GEMINI_API_KEY"),         
     temperature=0.3,
-).bind_tools([Payload, ProjectOverview])
+).bind_tools([Payload, ProjectOverview, Summary])
 
 def create_prompt_template(prompt_type: PromptType, counts: Optional[int] = None, timestamp: Optional[str] = None, days_of_week: Optional[str] = None) -> ChatPromptTemplate:
     system_prompt = load_prompt(prompt_type)
@@ -74,26 +75,7 @@ Assistant(JSON):
             "assignee": "Bob",
             "due_date": "2024-02-21",
             "priority": "HIGH",
-            "description": "Implement login page including password reset functionality",
-            "estimated_time": "PT4H"
-        }}
-    ]
-}}
-</example>
-
-<example>
-User chat:
-오늘 저녁 7시에 재민이랑 같이 프로젝트 기획 회의를 해야할거 같아
-Assistant(JSON):
-{{
-    "tickets": [
-        {{
-            "title": "Project Planning Meeting",
-            "assignee": "Jaemin",
-            "due_date": "2024-02-21",
-            "priority": "HIGH",
-            "description": "Hold project planning meeting to discuss project scope and requirements",
-            "estimated_time": "PT2H"
+            "description": "Implement login page including password reset functionality"
         }}
     ]
 }}
@@ -108,7 +90,6 @@ Extract exactly {counts} tickets (or fewer if there aren't enough tasks) from th
 3. Calculate the due date based on mentioned dates or relative time (using {timestamp} as reference)
 4. Set priority based on urgency (HIGH/MID/LOW)
 5. Write a detailed description
-6. Calculate estimated time in ISO 8601 duration format (PT30M, PT1H, PT2H, etc.)
 
 If the message is in Korean, translate the task details to English but keep the original meaning.
 Return the tickets in JSON format matching the schema exactly.
@@ -117,6 +98,30 @@ Return the tickets in JSON format matching the schema exactly.
         ]).partial(
             today=datetime.date.today().isoformat(),
             counts=counts or 3,  # Default to 3 if not specified
+            timestamp=timestamp or datetime.datetime.now().isoformat(),
+            days_of_week=days_of_week or datetime.datetime.now().strftime("%A").upper()
+        )
+    elif prompt_type == PromptType.SUMMARY:
+        return ChatPromptTemplate.from_messages([
+            ("system", system_prompt),
+            ("human", """
+[Date: {today}]
+
+### Chat to Analyze
+{chat_slice}
+
+Create a comprehensive written summary of the discussion. Focus on:
+1. Main decisions and outcomes
+2. Key points discussed
+3. Any concerns or blockers raised
+4. Future steps and recommendations
+
+Write in a natural, flowing style that captures the essence of the discussion.
+Return the summary in the specified JSON format.
+{format_instructions}"""
+            )
+        ]).partial(
+            today=datetime.date.today().isoformat(),
             timestamp=timestamp or datetime.datetime.now().isoformat(),
             days_of_week=days_of_week or datetime.datetime.now().strftime("%A").upper()
         )
@@ -145,6 +150,8 @@ async def extract(request: ChatRequest):
         # Create appropriate parser based on prompt type
         if request.prompt_type == PromptType.TICKETS:
             parser = PydanticOutputParser(pydantic_object=Payload)
+        elif request.prompt_type == PromptType.SUMMARY:
+            parser = PydanticOutputParser(pydantic_object=Summary)
         else:
             parser = PydanticOutputParser(pydantic_object=ProjectOverview)
         

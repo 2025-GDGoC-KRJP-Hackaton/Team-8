@@ -8,6 +8,7 @@ class PromptType(str, Enum):
     SHORT_OVERVIEW = "SHORT_OVERVIEW"
     LONG_OVERVIEW = "LONG_OVERVIEW"
     LIST_TASKS = "LIST_TASKS"
+    SUMMARY = "SUMMARY"
 
 class Message(BaseModel):
     author: str = Field(..., description="The author of the message")
@@ -64,6 +65,12 @@ class Ticket(BaseModel):
         except ValueError:
             raise ValueError('due_date must be in ISO 8601 format (YYYY-MM-DD)')
 
+    @validator('priority')
+    def validate_priority(cls, v):
+        if v not in ['HIGH', 'MID', 'LOW']:
+            raise ValueError('priority must be HIGH, MID, or LOW')
+        return v
+
 class ProjectOverview(BaseModel):
     summary: str = Field(..., description="Project summary")
     tasks: List[Dict[str, Any]] = Field(..., description="List of tasks")
@@ -75,3 +82,6 @@ class Payload(BaseModel):
     tickets: Optional[List[Ticket]] = Field(None, description="List of extracted tickets")
     overview: Optional[ProjectOverview] = Field(None, description="Project overview")
     tasks: Optional[List[Dict[str, Any]]] = Field(None, description="Simple task list")
+
+class Summary(BaseModel):
+    summary: str = Field(..., description="Comprehensive summary with markdown headers for Executive Summary, Discussion Summary, and Future Outlook sections")
