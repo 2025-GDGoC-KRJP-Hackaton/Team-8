@@ -1,0 +1,22 @@
+[17-May-25 8:42 PM] Jess#3310 what if we made a habit tracker but with a social twist? like you can see your friends’ progress
+[17-May-25 8:43 PM] Ryan#9082 ooo so like Duolingo but for habits?
+[17-May-25 8:43 PM] Tasha#5527 YES. daily streaks, accountability buddies, maybe even challenges
+
+{Reactions}
+✅ from Jess#3310
+🚀 from Tasha#5527
+
+[17-May-25 8:44 PM] Jess#3310 okay this could be sick. we need to name it tho
+[17-May-25 8:44 PM] Ryan#9082 “StreakMate”? or “Habitat”? idk
+[17-May-25 8:45 PM] Tasha#5527 “Habitat” actually kinda slaps
+
+[17-May-25 8:46 PM] Jess#3310 let’s run with that. who's down to build what?
+[17-May-25 8:46 PM] Ryan#9082 I’ll prototype the backend in Django. we’ll need user auth + social graph
+[17-May-25 8:47 PM] Tasha#5527 I’ll do the wireframes and flows, can also handle branding + app icon
+[17-May-25 8:47 PM] Jess#3310 I’ll work on the front-end in React Native and link up to Ryan’s API
+
+[17-May-25 8:48 PM] Ryan#9082 should we use Firebase for push notifications and analytics?
+[17-May-25 8:48 PM] Tasha#5527 yup. and we can A/B test features once we launch MVP
+
+[17-May-25 8:49 PM] Jess#3310 love it. setting up a Notion page + GitHub org now 🔧
+
