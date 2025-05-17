@@ -1,0 +1,27 @@
+Okay, here's a project overview based on the provided data:
+
+**Project Overview:**
+
+*   **Goal:** Develop a functional application (details unspecified, but built with Flutter front-end and Node.js/Firebase backend).
+*   **Current Progress:** Initial setup and development are underway. Backend development and UI framework are in progress. Project management and design documentation are being established.
+
+**Team Roles & Responsibilities:**
+
+*   **Alex#1123:**
+    *   SF-001: Develop backend using Node.js and Firebase.
+    *   SF-004: Set up Trello board for project management.
+*   **Sam#2049:**
+    *   SF-002: Develop UI in Flutter and set up app navigation.
+    *   SF-005: Set up GitHub repository for code management (To be done later).
+*   **Mira#8877:**
+    *   SF-003: Design UX, handle notifications, and integrate calendar API.
+    *   SF-006: Maintain Figma document for design assets.
+
+**Tech Stack:**
+
+*   **Frontend:** Flutter
+*   **Backend:** Node.js, Firebase
+*   **Project Management:** Trello
+*   **Design:** Figma
+*   **Code Management:** GitHub
+

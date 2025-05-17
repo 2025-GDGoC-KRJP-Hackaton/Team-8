@@ -1,0 +1,60 @@
+## Project Overview: Project Phoenix
+
+**Goal:** To develop a fully functional application with backend, UI, and integrated features like notifications and calendar integration.
+
+**Current Progress:** Initial project setup and task assignments complete. Backend development and UI foundation are underway.
+
+**Project Team & Roles:**
+
+| Person       | Role                                                          | Tasks                                                                                               |
+|--------------|---------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| Alex#1123    | Backend Developer & Project Management Setup                    | *   SF-001: Develop backend using Node.js and Firebase.                                                  *   SF-004: Set up Trello board for project management.                                                    |
+| Sam#2049     | UI Developer & Code Repository Setup                             | *   SF-002: Develop UI in Flutter and set up app navigation.                                               *   SF-005: Set up GitHub repository for code management (to be done later).                               |
+| Mira#8877    | UX Designer & Integrations Specialist                           | *   SF-003: Design UX, handle notifications, and integrate calendar API.                                  *   SF-006: Maintain Figma document for design assets.                                                     |
+
+**Tech Stack:**
+
+*   **Backend:** Node.js, Firebase
+*   **Frontend:** Flutter
+*   **Design:** Figma
+*   **Project Management:** Trello
+*   **Version Control:** GitHub
+
+**Detailed Task Breakdown:**
+
+**Alex#1123:**
+
+*   **SF-001: Develop backend using Node.js and Firebase.**
+    *   **Description:** Build the API endpoints, database schema, and authentication logic using Node.js and Firebase. Focus on scalability and security.
+    *   **Status:** In Progress
+*   **SF-004: Set up Trello board for project management.**
+    *   **Description:** Create a Trello board with appropriate lists (e.g., To Do, In Progress, Review, Done) and labels for prioritizing tasks and tracking progress.
+    *   **Status:** Completed
+
+**Sam#2049:**
+
+*   **SF-002: Develop UI in Flutter and set up app navigation.**
+    *   **Description:**  Develop the user interface using Flutter, focusing on a clean and intuitive design. Implement app navigation flows and ensure responsiveness across different screen sizes.
+    *   **Status:** In Progress
+*   **SF-005: Set up GitHub repository for code management (to be done later).**
+    *   **Description:** Create a GitHub repository with proper branching strategies (e.g., main, develop, feature branches) for effective collaboration and version control.  This task will be started after the initial UI setup.
+    *   **Status:** To Do
+
+**Mira#8877:**
+
+*   **SF-003: Design UX, handle notifications, and integrate calendar API.**
+    *   **Description:**  Design the overall user experience, ensuring a seamless and engaging user journey.  Implement notification functionality (push notifications, in-app notifications). Integrate with a calendar API (e.g., Google Calendar, Outlook Calendar) to allow users to manage their schedules within the app.
+    *   **Status:** To Do
+*   **SF-006: Maintain Figma document for design assets.**
+    *   **Description:**  Maintain the Figma document with all design assets, UI components, and mockups. Ensure the document is well-organized and up-to-date.
+    *   **Status:** In Progress (Initial Setup Complete, Ongoing Maintenance)
+
+**Next Steps:**
+
+*   Alex to focus on completing the initial backend setup and API endpoints.
+*   Sam to continue building the core UI components and navigation.
+*   Mira to finalize the UX design and begin researching calendar API integrations.
+*   Regular stand-up meetings will be held to track progress and address any roadblocks.
+
+Good luck, Team!
+
