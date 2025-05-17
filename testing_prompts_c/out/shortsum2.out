@@ -1,0 +1,20 @@
+**Project Overview**
+
+**Project Summary:** This project focuses on preparing a demonstration-ready application. Key tasks include finalizing the landing page design, integrating the Gemini API for chatbot functionality, establishing project tracking, testing webhook integrations, and migrating the database to Firebase.
+
+**Task List:**
+
+| Task ID | Description                                                    | Assignee    | Deadline     |
+| :------- | :------------------------------------------------------------- | :---------- | :----------- |
+| LP-001  | Finalize the landing page design using Tailwind and Next.js   | Ken#4481    | 2024-05-30   |
+| AI-002  | Integrate the Gemini API into the chatbot.                     | Yusuf#7742  | 2024-05-20   |
+| TM-003  | Create a Notion board to track project tasks.                | Ken#4481    | 2024-05-17   |
+| DV-004  | Test the webhook integration with Vercel deployments.          | Cedric#7031 | TBD          |
+| DB-005  | Migrate the SQLite storage to Firebase.                        | Yusuf#7742  | 2024-05-24   |
+
+**Team Roles:**
+
+*   **Ken#4481:** Responsible for front-end development, including landing page design and project tracking setup.
+*   **Yusuf#7742:** Responsible for back-end development, specifically API integration and database management.
+*   **Cedric#7031:** Responsible for DevOps, specifically testing webhook integrations.
+
