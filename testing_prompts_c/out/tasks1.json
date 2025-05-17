@@ -1,0 +1,35 @@
+```json
+[
+  {
+    "ticket_id": "SF-001",
+    "person": "Alex#1123",
+    "description": "Develop backend using Node.js and Firebase."
+  },
+  {
+    "ticket_id": "SF-002",
+    "person": "Sam#2049",
+    "description": "Develop UI in Flutter and set up app navigation."
+  },
+  {
+    "ticket_id": "SF-003",
+    "person": "Mira#8877",
+    "description": "Design UX, handle notifications, and integrate calendar API."
+  },
+  {
+    "ticket_id": "SF-004",
+    "person": "Alex#1123",
+    "description": "Set up Trello board for project management."
+  },
+  {
+    "ticket_id": "SF-005",
+    "person": "Sam#2049",
+    "description": "Set up GitHub repository for code management (to be done later)."
+  },
+  {
+    "ticket_id": "SF-006",
+    "person": "Mira#8877",
+    "description": "Maintain Figma document for design assets."
+  }
+]
+```
+

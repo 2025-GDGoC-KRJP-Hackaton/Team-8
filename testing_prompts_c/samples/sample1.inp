@@ -1,0 +1,20 @@
+[17-May-25 2:14 PM] Alex#1123 okay hear me out — what if we made an app that helps students organize deadlines and auto-generates study plans?
+[17-May-25 2:15 PM] Sam#2049 ngl that sounds actually useful
+[17-May-25 2:15 PM] Mira#8877 agreed. I’m in. Let’s build this
+
+{Reactions}
+👍 from Sam#2049
+🔥 from Mira#8877
+
+[17-May-25 2:16 PM] Alex#1123 we could call it “StudyFlow” or something
+[17-May-25 2:16 PM] Sam#2049 yeah, clean name. what stack are we using?
+[17-May-25 2:17 PM] Mira#8877 I suggest Flutter for mobile so we hit both iOS and Android
+
+[17-May-25 2:18 PM] Alex#1123 alright, let’s divide work. I’ll handle backend — Node + Firebase?
+[17-May-25 2:18 PM] Sam#2049 I’ll take care of the UI in Flutter and set up navigation
+[17-May-25 2:19 PM] Mira#8877 I can design the UX and handle notifications + calendar API integration
+
+[17-May-25 2:20 PM] Alex#1123 perfect. Let’s make a Trello board to keep things in check
+[17-May-25 2:20 PM] Sam#2049 and maybe GitHub later when we start pushing code?
+[17-May-25 2:21 PM] Mira#8877 already made a Figma doc 👀
+

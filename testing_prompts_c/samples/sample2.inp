@@ -1,0 +1,24 @@
+[17-May-25 10:12 AM] Rika#0214
+Can we finalize the landing page design by next Thursday? I think we’ll need it for the demo.
+
+[17-May-25 10:13 AM] Ken#4481
+I can take care of that. We’ll probably use Tailwind and Next.js, right?
+
+[17-May-25 10:14 AM] Yusuf#7742
+Reminder to integrate the Gemini API into the chatbot before Monday. We want to go commandless asap.
+
+[17-May-25 10:15 AM] Rika#0214
+Also someone please create a Notion board to track these tasks 🙏
+
+[17-May-25 10:16 AM] Ken#4481
+I'll handle Notion setup today.
+
+[17-May-25 10:17 AM] Cedric#7031
+Don't forget to test the webhook integration with Vercel deployments — it's a bit buggy.
+
+[17-May-25 10:19 AM] Yusuf#7742
+Oh, and we should migrate the SQLite storage to Firebase before the end of the week.
+
+[17-May-25 10:20 AM] Rika#0214
+Awesome! This is gonna be clean and smooth 🚀
+

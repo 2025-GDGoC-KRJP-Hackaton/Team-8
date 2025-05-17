@@ -1,0 +1,20 @@
+[17-May-25 10:03 AM] Leo#7771 freelancers have way too many spreadsheets… what if we made a clean budgeting app just for them?
+[17-May-25 10:04 AM] Nia#3142 something simple with income/expense tracking and tax estimates?
+[17-May-25 10:04 AM] Tom#6640 include invoice generation too. that would slap
+
+{Reactions}
+💡 from Nia#3142  
+💯 from Tom#6640
+
+[17-May-25 10:05 AM] Leo#7771 love the vibe — clean UI, zero fluff. "FreelanceFlow"?
+[17-May-25 10:05 AM] Nia#3142 or "MintDesk"? idk I like both
+[17-May-25 10:06 AM] Tom#6640 "MintDesk" sounds slick af
+
+[17-May-25 10:07 AM] Leo#7771 alright, MintDesk it is. I’ll start the frontend — thinking SvelteKit?
+[17-May-25 10:07 AM] Tom#6640 I’ll handle backend with Supabase, quick to get user auth + database up
+[17-May-25 10:08 AM] Nia#3142 I’ll mock up the UI and UX flow, and research what freelancers actually need
+
+[17-May-25 10:09 AM] Leo#7771 let’s meet again Friday to review MVP features
+[17-May-25 10:09 AM] Nia#3142 I’ll make a shared Notion for docs + roadmap
+[17-May-25 10:10 AM] Tom#6640 on it. setting up the Supabase project now 💻
+

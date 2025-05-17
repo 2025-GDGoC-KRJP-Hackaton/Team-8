@@ -1,0 +1,26 @@
+*   Finalize the landing page design
+
+    Assignee: Ken#4481
+
+    Due Date: 2024-05-30
+*   Integrate the Gemini API into the chatbot
+
+    Assignee: Yusuf#7742
+
+    Due Date: 2024-05-20
+*   Create a Notion board to track project tasks
+
+    Assignee: Ken#4481
+
+    Due Date: 2024-05-17
+*   Test the webhook integration with Vercel deployments
+
+    Assignee: Cedric#7031
+
+    Due Date: TBD
+*   Migrate the SQLite storage to Firebase
+
+    Assignee: Yusuf#7742
+
+    Due Date: 2024-05-24
+

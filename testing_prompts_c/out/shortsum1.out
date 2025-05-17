@@ -1,0 +1,11 @@
+**Project Goal** – Develop and deploy a functional chatbot demo with a compelling landing page.
+
+**Key Tasks**
+*   Create a Notion board to track project tasks - Ken#4481 - 2024-05-17
+*   Integrate the Gemini API into the chatbot for commandless operation - Yusuf#7742 - 2024-05-20
+*   Migrate the SQLite storage to Firebase - Yusuf#7742 - 2024-05-24
+*   Finalize the landing page design using Tailwind and Next.js for the demo - Ken#4481 - 2024-05-30
+*   Test the webhook integration with Vercel deployments - Cedric#7031 - TBD
+
+**Tech Stack** – Next.js, Tailwind, Gemini API, Firebase, Vercel, SQLite, Notion.
+
