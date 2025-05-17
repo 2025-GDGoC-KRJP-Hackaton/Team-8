@@ -1,27 +1,11 @@
-Okay, here's a project overview based on the provided data:
+**Project Goal** – Develop and deploy a functional chatbot demo with a compelling landing page.
 
-**Project Overview:**
+**Key Tasks**
+*   Create a Notion board to track project tasks - Ken#4481 - 2024-05-17
+*   Integrate the Gemini API into the chatbot for commandless operation - Yusuf#7742 - 2024-05-20
+*   Migrate the SQLite storage to Firebase - Yusuf#7742 - 2024-05-24
+*   Finalize the landing page design using Tailwind and Next.js for the demo - Ken#4481 - 2024-05-30
+*   Test the webhook integration with Vercel deployments - Cedric#7031 - TBD
 
-*   **Goal:** Develop a functional application (details unspecified, but built with Flutter front-end and Node.js/Firebase backend).
-*   **Current Progress:** Initial setup and development are underway. Backend development and UI framework are in progress. Project management and design documentation are being established.
-
-**Team Roles & Responsibilities:**
-
-*   **Alex#1123:**
-    *   SF-001: Develop backend using Node.js and Firebase.
-    *   SF-004: Set up Trello board for project management.
-*   **Sam#2049:**
-    *   SF-002: Develop UI in Flutter and set up app navigation.
-    *   SF-005: Set up GitHub repository for code management (To be done later).
-*   **Mira#8877:**
-    *   SF-003: Design UX, handle notifications, and integrate calendar API.
-    *   SF-006: Maintain Figma document for design assets.
-
-**Tech Stack:**
-
-*   **Frontend:** Flutter
-*   **Backend:** Node.js, Firebase
-*   **Project Management:** Trello
-*   **Design:** Figma
-*   **Code Management:** GitHub
+**Tech Stack** – Next.js, Tailwind, Gemini API, Firebase, Vercel, SQLite, Notion.
 

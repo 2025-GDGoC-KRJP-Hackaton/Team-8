@@ -1,0 +1,34 @@
+```json
+[
+  {
+    "ticket_id": "LP-001",
+    "person": "Ken#4481",
+    "deadline": "2024-05-30",
+    "description": "Finalize the landing page design using Tailwind and Next.js for the demo."
+  },
+  {
+    "ticket_id": "AI-002",
+    "person": "Yusuf#7742",
+    "deadline": "2024-05-20",
+    "description": "Integrate the Gemini API into the chatbot for commandless operation."
+  },
+    {
+    "ticket_id": "TM-003",
+    "person": "Ken#4481",
+    "deadline": "2024-05-17",
+    "description": "Create a Notion board to track project tasks."
+  },
+  {
+    "ticket_id": "DV-004",
+    "person": "Cedric#7031",
+    "deadline": "TBD",
+    "description": "Test the webhook integration with Vercel deployments."
+  },
+  {
+    "ticket_id": "DB-005",
+    "person": "Yusuf#7742",
+    "deadline": "2024-05-24",
+    "description": "Migrate the SQLite storage to Firebase."
+  }
+]
+```

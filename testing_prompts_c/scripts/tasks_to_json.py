@@ -16,7 +16,7 @@ with open(args.file, "r", encoding="utf-8") as f:
 	message_history = f.read()
 
 prompt = message_history 
-instruction = "You are a project manager and you divide each person's role in the project. You print a json file with tickets containing: ticket ID, name of person, description of task"
+instruction = "You are a project manager and you divide each person's role in the project. You print a json file with tickets containing: ticket ID, name of person, deadline, description of task"
 
 
 response = client.models.generate_content(
