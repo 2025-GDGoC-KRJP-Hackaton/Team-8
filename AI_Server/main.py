@@ -6,7 +6,6 @@ from langchain.output_parsers import PydanticOutputParser
 from models import Payload, ChatRequest, PromptType, ProjectOverview, Summary, InsertEventRequest
 from dotenv import load_dotenv
 import json
-import traceback
 import re
 from typing import Optional
 from google_auth_oauthlib.flow import Flow
@@ -265,7 +264,8 @@ async def create_event(request: InsertEventRequest):
         },
         "end": {
             "dateTime": request.ticket.due_date
-        }
+        },
+        "colorId": request.color_id
     }
     
     created_event = service.events().insert(calendarId="primary", body=event).execute()

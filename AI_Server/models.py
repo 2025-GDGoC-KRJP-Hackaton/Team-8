@@ -89,3 +89,4 @@ class Summary(BaseModel):
 class InsertEventRequest(BaseModel):
     user_id: str = Field(..., description="User ID")
     ticket: Ticket
+    color_id: Optional[str] = Field(None, description="Color ID")
