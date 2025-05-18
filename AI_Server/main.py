@@ -1,17 +1,28 @@
 import os, datetime
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.output_parsers import PydanticOutputParser
-from models import Payload, ChatRequest, PromptType, ProjectOverview, Summary
+from models import Payload, ChatRequest, PromptType, ProjectOverview, Summary, InsertEventRequest
 from dotenv import load_dotenv
 import json
 import traceback
 import re
 from typing import Optional
+from google_auth_oauthlib.flow import Flow
+from google.oauth2.credentials import Credentials
+from fastapi.responses import RedirectResponse
+from pathlib import Path
+from googleapiclient.discovery import build
+from google.auth.transport.requests import Request as AuthRequest
+
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 load_dotenv()                           
 app = FastAPI()
+
+CLIENT_SECRETS_FILE = os.getenv("GOOGLE_CLIENT_SECRET")
+SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 # Load prompts from files
 PROMPTS_DIR = os.path.join(os.path.dirname(__file__), "testing_prompts_c", "prompts")
@@ -194,6 +205,73 @@ async def extract(request: ChatRequest):
             status_code=500,
             detail=f"Error: {str(e)}"
         )
+
+@app.get('/auth')
+async def auth(user_id: str):
+    flow = Flow.from_client_secrets_file(
+        CLIENT_SECRETS_FILE,
+        scopes=SCOPES,
+        redirect_uri="http://localhost:8000/oauth2callback"
+    )
+    auth_url, _ = flow.authorization_url(
+        access_type="offline",
+        include_granted_scopes="true",
+        prompt="consent", 
+        state=user_id
+    )
+    return RedirectResponse(auth_url)
+
+@app.get('/oauth2callback')
+async def oauth2callback(request: Request):
+    auth_response = str(request.url)
+    flow = Flow.from_client_secrets_file(
+        CLIENT_SECRETS_FILE,
+        scopes=SCOPES,
+        redirect_uri="http://localhost:8000/oauth2callback"
+    )
+    flow.fetch_token(authorization_response=auth_response)
+    creds: Credentials = flow.credentials
+    
+    user_id = request.query_params.get("state")
+    if not user_id:
+        raise HTTPException(status_code=400, detail="Missing user_id")
+
+    with open(f"data/{user_id}.json", "w") as f:
+        f.write(creds.to_json())
+    
+    return f"✅ Successfully authenticated! You can now close this window."
+
+@app.post("/create_event")
+async def create_event(request: InsertEventRequest):
+    print(request)
+    token_path = f"data/{request.user_id}.json"
+    if not os.path.exists(token_path):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
+    if creds.expired and creds.refresh_token:
+        creds.refresh(AuthRequest())
+        
+        with open(token_path, "w") as f:
+            f.write(creds.to_json())
+    
+    service = build("calendar", "v3", credentials=creds)
+    
+    event = {
+        "summary": request.ticket.title,
+        "description": request.ticket.description,
+        "start": {
+            "dateTime": request.ticket.due_date
+        },
+        "end": {
+            "dateTime": request.ticket.due_date
+        }
+    }
+    
+    created_event = service.events().insert(calendarId="primary", body=event).execute()
+    return {"message": "Event created", "link": created_event.get("htmlLink")}
+    
+    
 
 if __name__ == "__main__":
     import uvicorn

@@ -85,3 +85,7 @@ class Payload(BaseModel):
 
 class Summary(BaseModel):
     summary: str = Field(..., description="Comprehensive summary with markdown headers for Executive Summary, Discussion Summary, and Future Outlook sections")
+
+class InsertEventRequest(BaseModel):
+    user_id: str = Field(..., description="User ID")
+    ticket: Ticket

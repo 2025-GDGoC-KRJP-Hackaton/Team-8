@@ -7,6 +7,8 @@ IMPORTANT DATE CONTEXT:
 - If someone says "tomorrow", calculate from {timestamp}
 - If someone says "next week", calculate from {timestamp}
 - If someone says "by Wednesday", use the next Wednesday after {timestamp}
+- ALL due dates MUST be in ISO 8601 string format (YYYY-MM-DDTHH:mm:ss.sssZ)
+- Example: "2024-05-23T15:30:00.000Z"
 
 For each task mentioned in the chat:
 1. Create a ticket with a clear, descriptive title
@@ -29,6 +31,7 @@ IMPORTANT:
 - Prioritize the most important or urgent tasks if there are more tasks than {counts}
 - ALWAYS prefer concrete due dates over estimated ones
 - ALL date calculations must be based on {timestamp}, not the chat's context
+- ALL due dates MUST be in ISO 8601 string format (YYYY-MM-DDTHH:mm:ss.sssZ)
 - ENSURE LOGICAL TASK ORDERING:
   * Review tasks must come AFTER the tasks they're reviewing
   * Follow-up tasks must come AFTER their prerequisite tasks
@@ -44,21 +47,21 @@ Return ONLY valid JSON matching the schema exactly. Do not include any other tex
 User chat:
 We need frontend wireframes by Friday. Tina can you own it?
 Assistant(JSON):
-{{"tickets":[{{"title":"Create frontend wireframes","assignee":"Tina","due_date":"2024-02-23","priority":"MID","description":"Create wireframes for the frontend of the application."}}]}}
+{{"tickets":[{{"title":"Create frontend wireframes","assignee":"Tina","due_date":"2024-02-23T23:59:59.999Z","priority":"MID","description":"Create wireframes for the frontend of the application."}}]}}
 </example>
 
 <example>
 User chat:
 오늘 저녁 7시에 재민이랑 같이 프로젝트 기획 회의를 해야할거 같아
 Assistant(JSON):
-{{"tickets":[{{"title":"Project Planning Meeting","assignee":"Jaemin","due_date":"2024-02-21","priority":"HIGH","description":"Hold project planning meeting to discuss project scope and requirements."}}]}}
+{{"tickets":[{{"title":"Project Planning Meeting","assignee":"Jaemin","due_date":"2024-02-21T19:00:00.000Z","priority":"HIGH","description":"Hold project planning meeting to discuss project scope and requirements."}}]}}
 </example>
 
 <example>
 User chat:
 Let's have a quick standup meeting tomorrow morning
 Assistant(JSON):
-{{"tickets":[{{"title":"Standup Meeting","assignee":"Team","due_date":"2024-02-22","priority":"HIGH","description":"Daily standup meeting to discuss progress and blockers."}}]}}
+{{"tickets":[{{"title":"Standup Meeting","assignee":"Team","due_date":"2024-02-22T10:00:00.000Z","priority":"HIGH","description":"Daily standup meeting to discuss progress and blockers."}}]}}
 </example>
 
 ### New chat slice
