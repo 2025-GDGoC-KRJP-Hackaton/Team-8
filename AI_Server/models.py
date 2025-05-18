@@ -52,7 +52,7 @@ class ChatRequest(BaseModel):
 class Ticket(BaseModel):
     title: str = Field(..., description="Title of the ticket")
     assignee: Optional[str] = Field(None, description="Person assigned to the ticket")
-    due_date: str = Field(..., description="Due date in ISO 8601 format (YYYY-MM-DD)")
+    due_date: str = Field(..., description="Due date in ISO 8601 format (YYYY-MM-DDTHH:MM:SS.000Z)")
     priority: str = Field(default="MID", pattern="LOW|MID|HIGH", description="Priority level of the ticket")
     description: str = Field(..., description="Detailed description of the ticket")
 
@@ -60,10 +60,10 @@ class Ticket(BaseModel):
     def validate_due_date(cls, v):
         try:
             # Try to parse the date string
-            datetime.fromisoformat(v)
+            datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%fZ')
             return v
         except ValueError:
-            raise ValueError('due_date must be in ISO 8601 format (YYYY-MM-DD)')
+            raise ValueError('due_date must be in ISO 8601 format (YYYY-MM-DDTHH:MM:SS.000Z)')
 
     @validator('priority')
     def validate_priority(cls, v):
