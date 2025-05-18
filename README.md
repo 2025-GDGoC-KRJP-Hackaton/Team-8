@@ -16,13 +16,13 @@ Welcome to Tickr, the ultimate battlefield commander for Discord projects! Forge
 1. **Discord Bot Server**
 
    ```bash
-   cd DiscordBot_server
+   cd Tickr_DiscordBot_server
    pnpm install
    ```
 2. **AI Server**
 
    ```bash
-   cd AI_server
+   cd Tickr_AI_Server
    pip install -r requirements.txt
    ```
 
